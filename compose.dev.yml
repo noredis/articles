@@ -79,7 +79,7 @@ services:
     networks:
       - articles-app-dev
     healthcheck:  
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p secret"]  
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-psecret"]  
       interval: 5s
       timeout: 5s
       retries: 5
