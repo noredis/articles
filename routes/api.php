@@ -8,4 +8,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/articles', [ArticleController::class, 'store']);
+Route::controller(ArticleController::class)->group(function () {
+    Route::post('/articles', 'store');
+    Route::get('/articles/{id}', 'index');
+});

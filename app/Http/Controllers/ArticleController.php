@@ -17,4 +17,8 @@ class ArticleController extends Controller
         $article = $storeArticle($request->validated());
         return new ArticleResource($article);
     }
+
+    public function index()
+    {
+    }
 }
