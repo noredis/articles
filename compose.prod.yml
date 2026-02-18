@@ -1,0 +1,73 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/production/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - storage:/var/www/storage:ro
+    networks:
+      - articles-app
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    depends_on:
+      php-fpm:
+        condition: service_healthy
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+      target: production
+    restart: unless-stopped
+    volumes:
+      - storage:/var/www/storage
+    env_file:
+      - .env
+    networks:
+      - articles-app
+    healthcheck:
+      test: ["CMD-SHELL", "php-fpm-healthcheck || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  php-cli:
+    build:
+      context: .
+      dockerfile: ./docker/php-cli/production/Dockerfile
+    tty: true
+    stdin_open: true
+    env_file:
+      - .env
+
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    user: mysql
+    ports:
+      - "${DB_PORT}:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - articles-app
+    healthcheck:  
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$$DB_ROOT_PASSWORD"]  
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  articles-app:
+
+volumes:
+  mysql_data:
+  storage:
