@@ -24,4 +24,8 @@ class ArticleController extends Controller
         $article = Article::where('id', $id)->firstOrFail();
         return new ArticleResource($article);
     }
+
+    public function show()
+    {
+    }
 }
