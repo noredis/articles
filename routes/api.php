@@ -10,5 +10,5 @@ Route::get('/user', function (Request $request) {
 
 Route::controller(ArticleController::class)->group(function () {
     Route::post('/articles', 'store');
-    Route::get('/articles/{id}', 'index');
+    Route::get('/articles/{id}', 'index')->whereNumber('id');
 });
