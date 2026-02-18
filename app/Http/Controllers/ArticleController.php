@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\StoreArticle;
 use App\Http\Requests\StoreArticleRequest;
+use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,7 +26,9 @@ class ArticleController extends Controller
         return new ArticleResource($article);
     }
 
-    public function show()
+    public function show(): JsonResource
     {
+        $articles = Article::all();
+        return new ArticleCollection($articles);
     }
 }
