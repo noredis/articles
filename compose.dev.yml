@@ -2,7 +2,7 @@ services:
   web:
     image: nginx:latest
     volumes:
-      - ./:/var/www
+      - ./backend:/var/www
       - ./docker/nginx/development/nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "80:80"
@@ -32,7 +32,7 @@ services:
       - .env
     user: "${UID:-1000}:${GID:-1000}"
     volumes:
-      - ./:/var/www
+      - ./backend:/var/www
     networks:
       - articles-app-dev
     depends_on:
@@ -59,7 +59,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./:/var/www
+      - ./backend:/var/www
     networks:
       - articles-app-dev
 

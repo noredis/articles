@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /var/www
 
-COPY . /var/www
+COPY ./backend /var/www
 
 RUN npm install && npm run build
 

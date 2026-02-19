@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /var/www
 
-COPY . /var/www
+COPY ./backend /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist
@@ -40,7 +40,7 @@ RUN curl -o /usr/local/bin/php-fpm-healthcheck \
 COPY ./docker/php-fpm/production/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-COPY ./storage /var/www/storage-init
+COPY ./backend/storage /var/www/storage-init
 
 COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
 COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/

@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /var/www
 
-COPY . /var/www
+COPY ./backend /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && composer install --no-dev --optimize-autoloader --no-interaction --no-progress --prefer-dist
