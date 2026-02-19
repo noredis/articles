@@ -7,6 +7,7 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\CommentCollection;
 use App\Http\Resources\CommentResource;
 use App\Models\Article;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommentController extends Controller
@@ -20,9 +21,12 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function show(int $id): JsonResource
+    public function show(Request $request, int $id): JsonResource
     {
-        $comments = Article::where('id', $id)->firstOrFail()->comments;
+        $comments = Article::where('id', $id)
+            ->firstOrFail()
+            ->comments()
+            ->paginate($request->integer('per_page', 5));
         return new CommentCollection($comments);
     }
 }
