@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Actions\StoreArticle;
-use App\Http\Requests\ShowArticleRequest;
 use App\Http\Requests\StoreArticleRequest;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
@@ -28,19 +27,11 @@ class ArticleController extends Controller
         return new ArticleResource($article);
     }
 
-    public function show(
-        ShowArticleRequest $request,
-    ): JsonResource
+    public function show(Request $request): JsonResource
     {
-        $values = $request->validated();
-        $page = $values['page'];
-        $limit = $values['limit'];
-        $offset = ($page - 1) * $limit;
 
         $articles = Article::query()
-            ->offset($offset)
-            ->limit($limit)
-            ->get();
+            ->paginate($request->integer('per_page', 5));
         return new ArticleCollection($articles);
     }
 }
