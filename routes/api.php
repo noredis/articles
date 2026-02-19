@@ -16,5 +16,6 @@ Route::controller(ArticleController::class)->group(function () {
 });
 
 Route::controller(CommentController::class)->group(function () {
-    Route::post('/articles/{id}/comments', 'store')->whereNumber('id');
-});
+    Route::post('/articles/{id}/comments', 'store');
+    Route::get('/articles/{id}/comments', 'show');
+})->whereNumber('id');

@@ -17,4 +17,8 @@ class CommentController extends Controller
         $comment = $storeComment($request->validated());
         return new CommentResource($comment);
     }
+
+    public function show()
+    {
+    }
 }
