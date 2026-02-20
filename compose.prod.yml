@@ -13,6 +13,8 @@ services:
     depends_on:
       php-fpm:
         condition: service_healthy
+      react:
+        condition: service_healthy
 
   php-fpm:
     build:
@@ -43,6 +45,25 @@ services:
     stdin_open: true
     env_file:
       - .env
+
+  react:
+    build:
+      context: .
+      dockerfile: ./docker/react/Dockerfile
+      target: production
+    env_file:
+      - .env
+    networks:
+      - articles-app
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      php-fpm:
+        condition: service_healthy
 
   mysql:
     image: mysql:8
