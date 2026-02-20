@@ -24,6 +24,9 @@ dev-sh:
 dev-db:
 	@docker compose -f $(DEV) exec -it mysql mysql -u root -proot_usr_pwd -D articles_db
 
+dev-react-sh:
+	@docker compose -f $(DEV) exec -it react sh
+
 prod-up:
 	@docker compose -f $(PROD) up -d
 
