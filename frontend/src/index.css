@@ -1,0 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Great+Vibes');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+header {
+  position: sticky;
+  display: flex;
+  align-items: center;
+  top: 0;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  gap: 5px;
+  padding: 15px 30px;
+  z-index: 1;
+  font-size: 32px;
+  font-weight: bold;
+  color: #4fc3f7;
+}
+
+.header-title-container {
+  display: inline-block;
+  background: #4fc3f7;
+  padding: 10px;
+  color: #ffffff;
+}
+
+.about-fishing {
+  font-family: 'Great Vibes', sans-serif;
+  font-size: 40px;
+  color: #000;
+}
