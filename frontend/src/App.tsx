@@ -1,9 +1,11 @@
-import { Header } from './common/Header';
+import { Header } from './common/ui/Header';
+import { ArticleList } from './feature/ArticleList';
 
 function App() {
   return (
     <>
       <Header/>
+      <ArticleList/>
     </>
   );
 }
