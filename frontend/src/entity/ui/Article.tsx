@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { truncate } from "../../common/utils/truncate-string";
-import { Article } from "../model/article";
+import { Article } from "../model/entity/article";
 
 type ArticleProps = {
     article: Article;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Article } from "../entity/model/article";
+import { Article } from "../entity/model/entity/article";
 import { ArticleView } from "../entity/ui/Article";
 
 export const ArticleList = () => {

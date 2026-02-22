@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Article } from "../entity/model/article";
+import { Article } from "../entity/model/entity/article";
 import { NotFound } from "../common/ui/NotFound";
 
 type ArticleDetailsProps = {
