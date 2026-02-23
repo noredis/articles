@@ -6,10 +6,11 @@ import { Comment } from "../entity/model/entity/comment";
 import { CommentView } from "../entity/ui/Comment";
 
 export const ArticleDetailsPage = () => {
+    const limit = 5;
     const {id} = useParams();
     const [article, setArticle] = useState<Article|null>(null);
     const [notFound, setNotFound] = useState<boolean|null>(null);
-    const [commentsLink, setCommentsLink] = useState(`/api/articles/${id}/comments?page=1&per_page=5`)
+    const [commentsLink, setCommentsLink] = useState<string|null>(`/api/articles/${id}/comments?offset=0&limit=${limit}`)
     const [comments, setComments] = useState<Comment[]>([])
     const [authorName, setAuthorName] = useState("");
     const [commentContent, setCommentContent] = useState("");
@@ -32,7 +33,11 @@ export const ArticleDetailsPage = () => {
             const response = await fetch(commentsLink);
             const body = await response.json();
             setComments([...comments, ...body.data]);
-            setCommentsLink(body.links.next);
+            if (body.data.length == 0) {
+                setCommentsLink(null);
+                return;
+            }
+            setCommentsLink(`/api/articles/${id}/comments?offset=${comments.length + body.data.length}&limit=${limit}`);
         }
     }, [commentsLink]);
 
@@ -52,6 +57,9 @@ export const ArticleDetailsPage = () => {
                 setComments([body.data, ...comments])
                 setCommentContent("");
                 setAuthorName("");
+                if (commentsLink != null) {
+                    setCommentsLink(`/api/articles/${id}/comments?offset=${comments.length + 1}&limit=${limit}`);
+                }
             } else if (response.status == 422) {
                 const body = await response.json();
                 setCommentErrors(body.errors);

@@ -3,7 +3,8 @@ import { Article } from "../entity/model/entity/article";
 import { ArticleView } from "../entity/ui/Article";
 
 export const ArticleList = () => {
-  const [link, setLink] = useState<string|null>('/api/articles?page=1&per_page=5');
+  const limit = 5;
+  const [link, setLink] = useState<string|null>(`/api/articles?offset=0&limit=${limit}`);
   const [articles, setArticles] = useState<Article[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [title, setTitle] = useState("");
@@ -15,7 +16,11 @@ export const ArticleList = () => {
       const response = await fetch(link);
       const body = await response.json();
       setArticles([...articles, ...body.data]);
-      setLink(body.links.next);
+      if (body.data.length == 0) {
+        setLink(null);
+        return;
+      }
+      setLink(`/api/articles?offset=${articles.length + body.data.length}&limit=${limit}`);
     }
   }, [link]);
 
@@ -36,6 +41,9 @@ export const ArticleList = () => {
           setTitle("");
           setContent("");
           setModalIsOpen(false);
+          if (link != null) {
+            setLink(`/api/articles?offset=${articles.length + 1}&limit=${limit}`);
+          }
       } else if (response.status == 422) {
           const body = await response.json();
           setArticleErrors(body.errors);
