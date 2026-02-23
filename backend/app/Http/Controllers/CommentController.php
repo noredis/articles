@@ -27,7 +27,9 @@ class CommentController extends Controller
             ->firstOrFail()
             ->comments()
             ->orderBy('id', 'desc')
-            ->paginate($request->integer('per_page', 5));
+            ->offset($request->integer('offset', 0))
+            ->limit($request->integer('limit', 5))
+            ->get();
         return new CommentCollection($comments);
     }
 }
