@@ -26,6 +26,7 @@ class CommentController extends Controller
         $comments = Article::where('id', $id)
             ->firstOrFail()
             ->comments()
+            ->orderBy('id', 'desc')
             ->paginate($request->integer('per_page', 5));
         return new CommentCollection($comments);
     }
