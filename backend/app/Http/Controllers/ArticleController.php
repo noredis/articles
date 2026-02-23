@@ -30,6 +30,7 @@ class ArticleController extends Controller
     public function show(Request $request): JsonResource
     {
         $articles = Article::query()
+            ->orderBy('id', 'desc')
             ->paginate($request->integer('per_page', 5));
         return new ArticleCollection($articles);
     }
