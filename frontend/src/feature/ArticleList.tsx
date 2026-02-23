@@ -3,7 +3,7 @@ import { Article } from "../entity/model/entity/article";
 import { ArticleView } from "../entity/ui/Article";
 
 export const ArticleList = () => {
-  const [link, setLink] = useState<string|null>('http://localhost/api/articles?page=1&per_page=5');
+  const [link, setLink] = useState<string|null>('/api/articles?page=1&per_page=5');
   const [articles, setArticles] = useState<Article[]>([]);
 
   const fetchData = useCallback(async () => {
