@@ -1,4 +1,4 @@
-.PHONY: dev-up dev-build dev-down dev-down-volumes dev-migrate dev-sh dev-db prod-up prod-build prod-down prod-down-volumes
+.PHONY: dev-up dev-build dev-down dev-down-volumes dev-migrate dev-sh dev-db up build down down-volumes
 
 PROD = compose.prod.yml
 DEV  = compose.dev.yml
@@ -27,14 +27,14 @@ dev-db:
 dev-react-sh:
 	@docker compose -f $(DEV) exec -it react sh
 
-prod-up:
+up:
 	@docker compose -f $(PROD) up -d
 
-prod-build:
+build:
 	@docker compose -f $(PROD) up --build -d
 
-prod-down:
+down:
 	@docker compose -f $(PROD) down
 
-prod-down-volumes:
+down-volumes:
 	@docker compose -f $(PROD) down -v
